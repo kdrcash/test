@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메디브리지 | 병원 매매 플랫폼</title>
+    <meta
+      name="description"
+      content="메디브리지는 병원 매도·매수 전문가가 상주하는 병원 매매 전용 플랫폼입니다. 전국 병원 매물과 맞춤형 컨설팅으로 안전한 거래를 지원합니다."
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="container nav-container">
+        <a class="nav-logo" href="#">메디브리지</a>
+        <div class="nav-links">
+          <a href="#listings">매물 정보</a>
+          <a href="#process">거래 절차</a>
+          <a href="#services">전문 서비스</a>
+          <a href="#contact">상담 문의</a>
+        </div>
+        <a class="btn btn-primary" href="#contact">무료 상담 신청</a>
+      </div>
+    </nav>
+
+    <header class="container hero">
+      <div>
+        <span class="tag">전국 병원 매물 네트워크</span>
+        <h1 class="hero-title">병원 매매, 신뢰할 수 있는<br />전문 파트너와 함께하세요</h1>
+        <p class="hero-subtitle">
+          10년 이상 경력의 헬스케어 컨설턴트가 병원 매도·매수 과정을 처음부터 끝까지 동행합니다.
+          병원 가치 평가부터 계약, 인수인계까지 메디브리지가 안전한 거래를 완성합니다.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#listings">추천 병원 매물 보기</a>
+          <a class="btn btn-outline" href="#contact">맞춤 상담 요청</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <h4>320+</h4>
+            <p>검증된 병원 매물</p>
+          </div>
+          <div class="hero-stat">
+            <h4>92%</h4>
+            <p>3개월 내 거래 완료율</p>
+          </div>
+          <div class="hero-stat">
+            <h4>48시간</h4>
+            <p>맞춤 매물 제안 소요</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1580281780460-82d277b0ae9b?auto=format&fit=crop&w=900&q=80" alt="병원 전경" />
+      </div>
+    </header>
+
+    <main>
+      <section id="listings" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <h2>핵심 병원 매물</h2>
+            <p>비공개 프리미엄 매물은 담당 컨설턴트에게 별도 문의해 주세요.</p>
+          </div>
+          <div class="listing-filters" style="text-align: center; margin-bottom: 2rem;">
+            <button class="btn btn-primary" data-filter="all">전체</button>
+            <button class="btn btn-outline" data-filter="general">종합병원</button>
+            <button class="btn btn-outline" data-filter="dental">치과</button>
+            <button class="btn btn-outline" data-filter="rehab">재활/요양</button>
+          </div>
+          <div class="card-grid">
+            <article class="listing-card" data-category="general">
+              <span class="tag">서울 강남</span>
+              <h3>강남역 상권 200병상 종합병원</h3>
+              <p>
+                의료 특화 지역에서 안정적인 수익을 기록 중인 종합병원 매물입니다.
+                최근 리모델링으로 최신 시설과 스마트 병상 관리 시스템을 갖추고 있습니다.
+              </p>
+              <div class="listing-meta">
+                <span>연매출 480억</span>
+                <span>EBITDA 78억</span>
+                <span>인수자문 가능</span>
+              </div>
+              <p class="price">매각가 1,950억</p>
+              <a class="btn btn-outline" href="#contact">매물 상세 문의</a>
+            </article>
+
+            <article class="listing-card" data-category="dental">
+              <span class="tag">부산 해운대</span>
+              <h3>해운대 관광객 특화 치과 병원</h3>
+              <p>
+                관광객 중심의 교정/임플란트 특화 병원으로 월평균 내원객 1,800명.
+                다국어 코디네이터 및 디지털 덴티스트리 장비 완비.
+              </p>
+              <div class="listing-meta">
+                <span>연매출 96억</span>
+                <span>영업이익 24억</span>
+                <span>관광의료 인증</span>
+              </div>
+              <p class="price">매각가 230억</p>
+              <a class="btn btn-outline" href="#contact">매물 상세 문의</a>
+            </article>
+
+            <article class="listing-card" data-category="rehab">
+              <span class="tag">대전 도심</span>
+              <h3>첨단 재활 로봇 도입 전문 병원</h3>
+              <p>
+                권역 응급의료센터와 연계된 재활 병원으로 로봇 재활 센터 보유.
+                정부 과제 수행 경험과 함께 안정적인 보험 수가를 확보하고 있습니다.
+              </p>
+              <div class="listing-meta">
+                <span>연매출 120억</span>
+                <span>평균 가동률 92%</span>
+                <span>장기 계약 간호사 80명</span>
+              </div>
+              <p class="price">매각가 520억</p>
+              <a class="btn btn-outline" href="#contact">매물 상세 문의</a>
+            </article>
+
+            <article class="listing-card" data-category="general">
+              <span class="tag">수원 영통</span>
+              <h3>지식산업센터 내 120병상 종합병원</h3>
+              <p>
+                수도권 남부 거점 병원으로 직영 검진센터와 건강관리 프로그램 운영.
+                자체 EMR 고도화로 데이터 기반 경영이 가능하며 확장 잠재력이 높습니다.
+              </p>
+              <div class="listing-meta">
+                <span>연매출 260억</span>
+                <span>영업이익 42억</span>
+                <span>부동산 포함</span>
+              </div>
+              <p class="price">매각가 780억</p>
+              <a class="btn btn-outline" href="#contact">매물 상세 문의</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" class="section" style="background: linear-gradient(180deg, rgba(47, 111, 237, 0.08), transparent);">
+        <div class="container">
+          <div class="section-heading">
+            <h2>전문가가 설계한 6단계 거래 프로세스</h2>
+            <p>법률·세무·노무 컨설턴트가 단계별로 참여해 리스크를 관리합니다.</p>
+          </div>
+          <div class="process-steps">
+            <div class="process-step">
+              <span>01</span>
+              <h3>사전 진단</h3>
+              <p>병원 운영 현황, 재무 구조, 지역 경쟁력 등을 분석해 매물 포지셔닝을 정의합니다.</p>
+            </div>
+            <div class="process-step">
+              <span>02</span>
+              <h3>거래 전략 수립</h3>
+              <p>적정 가치 산정 및 세무 최적화 전략을 수립하고 NDA 기반의 비공개 마케팅을 진행합니다.</p>
+            </div>
+            <div class="process-step">
+              <span>03</span>
+              <h3>투자자 매칭</h3>
+              <p>전국 의료법인 및 전문 투자자 풀을 활용해 최적의 인수 후보를 발굴하고 제안합니다.</p>
+            </div>
+            <div class="process-step">
+              <span>04</span>
+              <h3>실사 및 협상</h3>
+              <p>법무·세무 실사와 직원 면담을 지원하며, 조건 협상과 계약서 초안을 조율합니다.</p>
+            </div>
+            <div class="process-step">
+              <span>05</span>
+              <h3>계약 체결</h3>
+              <p>자금 조달 구조를 검토하고 계약 체결 및 거래 승인 절차를 마무리합니다.</p>
+            </div>
+            <div class="process-step">
+              <span>06</span>
+              <h3>인수인계 관리</h3>
+              <p>의료진, 직원, 환자 커뮤니케이션 계획을 수립해 안정적인 인수인계를 지원합니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <h2>병원 매도·매수를 위한 올인원 서비스</h2>
+            <p>메디브리지는 각 단계별 전문 파트너와 협업해 거래 성공률을 높입니다.</p>
+          </div>
+          <div class="service-blocks">
+            <article class="service-block">
+              <h3>병원 매도 컨설팅</h3>
+              <ul>
+                <li>• 병원 가치 평가 및 매각 전략 수립</li>
+                <li>• 기밀 유지 기반 투자자 네트워크 마케팅</li>
+                <li>• 세무/법무 리스크 진단 및 개선 로드맵</li>
+                <li>• 직원 커뮤니케이션 및 인수인계 컨설팅</li>
+              </ul>
+              <a class="btn btn-outline" href="#contact">매도 상담 요청</a>
+            </article>
+
+            <article class="service-block">
+              <h3>병원 매수 자문</h3>
+              <ul>
+                <li>• 맞춤형 매물 소싱 및 초기 검토 리포트</li>
+                <li>• 자금 조달 구조 설계 및 금융기관 협업</li>
+                <li>• 실사(재무·법무·노무) 진행 지원</li>
+                <li>• 운영 안정화 및 브랜드 전략 컨설팅</li>
+              </ul>
+              <a class="btn btn-outline" href="#contact">매수 상담 요청</a>
+            </article>
+
+            <article class="service-block">
+              <h3>운영 성과 개선</h3>
+              <ul>
+                <li>• EMR/CRM 데이터 기반 경영 대시보드 구축</li>
+                <li>• 진료 과별 수익 구조 분석 및 개선 전략</li>
+                <li>• 의료진·스태프 채용 및 온보딩 프로세스</li>
+                <li>• 환자 경험 향상을 위한 CX 디자인</li>
+              </ul>
+              <a class="btn btn-outline" href="#contact">운영 컨설팅 문의</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="background: rgba(15, 59, 154, 0.04);">
+        <div class="container">
+          <div class="section-heading">
+            <h2>거래 후기도 확인하세요</h2>
+            <p>파트너가 직접 전하는 생생한 경험담을 통해 메디브리지를 만나보세요.</p>
+          </div>
+          <div class="testimonials">
+            <article class="testimonial-card">
+              <p>
+                "메디브리지 팀은 병원 특성과 지역 의료 환경을 정확하게 이해하고 제안했습니다.
+                실사 단계에서 예상치 못한 이슈를 빠르게 정리해 거래를 안전하게 마무리할 수 있었습니다."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=60" alt="의사 프로필" width="56" height="56" style="border-radius: 50%;" />
+                <div>
+                  <strong>이수현 원장</strong>
+                  <span>서울 재활병원 매도</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p>
+                "병원 매수는 처음이라 불안했지만, 각 분야 전문가가 단계별로 설명을 도와주셔서 결정이 쉬웠습니다.
+                인수 후 병원 운영 전략까지 함께 고민해 주신 점이 특히 인상 깊었습니다."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=200&q=60" alt="경영자 프로필" width="56" height="56" style="border-radius: 50%;" />
+                <div>
+                  <strong>김도윤 이사</strong>
+                  <span>부산 치과병원 인수</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p>
+                "거래 이후에도 환자 커뮤니케이션과 직원 온보딩까지 세심하게 지원해 주셔서 서비스 품질을 유지할 수 있었습니다.
+                장기적으로 병원을 성장시키는 파트너라는 생각이 들었습니다."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=60" alt="병원장 프로필" width="56" height="56" style="border-radius: 50%;" />
+                <div>
+                  <strong>박지연 병원장</strong>
+                  <span>수원 종합병원 인수</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container contact-section">
+          <div>
+            <h2>병원 가치 극대화를 위한 맞춤 컨설팅을 경험해 보세요.</h2>
+            <p style="margin-top: 1rem; opacity: 0.9;">
+              병원 유형, 규모, 지역을 알려주시면 48시간 내 담당 컨설턴트가 연락드립니다.
+              상담은 전 과정 무료이며 기밀을 철저히 보장합니다.
+            </p>
+            <ul style="margin-top: 1.5rem; display: grid; gap: 0.8rem;">
+              <li>• 300여 개 의료법인 및 투자자 풀 보유</li>
+              <li>• 전국 5개 거점 오프라인 미팅룸 운영</li>
+              <li>• 거래 완료 후 6개월 사후 관리 지원</li>
+            </ul>
+          </div>
+          <form class="contact-form" aria-labelledby="contact-heading">
+            <div>
+              <label for="name">이름</label>
+              <input type="text" id="name" name="name" placeholder="홍길동" required />
+            </div>
+            <div>
+              <label for="email">이메일</label>
+              <input type="email" id="email" name="email" placeholder="example@hospital.com" required />
+            </div>
+            <div>
+              <label for="phone">연락처</label>
+              <input type="tel" id="phone" name="phone" placeholder="010-1234-5678" />
+            </div>
+            <div>
+              <label for="message">상담 내용</label>
+              <textarea id="message" name="message" placeholder="병원 유형, 원하는 거래 일정 등을 남겨주세요." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">상담 신청하기</button>
+            <p id="form-success" hidden role="status" style="margin-top: 0.5rem;"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>© 2024 MediBridge Partners. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">회사 소개</a>
+          <a href="#">개인정보 처리방침</a>
+          <a href="#">병원 매물 제보</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
