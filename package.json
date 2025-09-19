@@ -1,0 +1,18 @@
+{
+  "name": "medibridge-platform",
+  "version": "1.0.0",
+  "description": "병원 매도·매수를 원하는 의료 기관과 투자자를 연결하는 병원 매매 전용 사이트의 프로토타입.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "healthcare",
+    "listings",
+    "brokerage"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}
