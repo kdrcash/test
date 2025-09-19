@@ -1,26 +1,5 @@
-const filterButtons = document.querySelectorAll('[data-filter]');
-const listingCards = document.querySelectorAll('[data-category]');
 const contactForm = document.querySelector('.contact-form');
 const successMessage = document.querySelector('#form-success');
-
-function setActiveFilter(button) {
-  filterButtons.forEach((btn) => btn.classList.remove('btn-primary'));
-  button.classList.add('btn-primary');
-}
-
-function filterListings(category) {
-  listingCards.forEach((card) => {
-    const isMatch = category === 'all' || card.dataset.category === category;
-    card.style.display = isMatch ? 'flex' : 'none';
-  });
-}
-
-filterButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    setActiveFilter(button);
-    filterListings(button.dataset.filter);
-  });
-});
 
 if (contactForm) {
   contactForm.addEventListener('submit', (event) => {
