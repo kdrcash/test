@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메디브리지 | 통합 관리자 대시보드</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="admin-body">
+    <nav>
+      <div class="container nav-container">
+        <a class="nav-logo" href="/">메디브리지</a>
+        <div class="nav-links">
+          <a href="/">홈으로 이동</a>
+        </div>
+        <button type="button" class="btn btn-outline" id="logout-button" hidden>로그아웃</button>
+      </div>
+    </nav>
+
+    <main class="container admin-container">
+      <!-- Login Section -->
+      <section id="login-section" class="admin-panel">
+        <div class="admin-card" style="max-width: 500px; margin: 0 auto;">
+          <h1>관리자 로그인</h1>
+          <p class="admin-subtitle">
+            통합 대시보드에 접근하려면 관리자 비밀번호를 입력하세요.
+          </p>
+          <form id="login-form" class="admin-form" autocomplete="off">
+            <label for="admin-password">관리자 비밀번호</label>
+            <input
+              type="password"
+              id="admin-password"
+              name="password"
+              placeholder="비밀번호를 입력하세요"
+              required
+            />
+            <button type="submit" class="btn btn-primary">대시보드 입장</button>
+            <p id="login-error" class="form-error" role="alert" hidden></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- Dashboard Section -->
+      <section id="dashboard-section" class="admin-panel" hidden>
+        <!-- Dashboard Overview -->
+        <div class="dashboard-overview">
+          <h1 style="margin-bottom: 2rem; color: var(--secondary-color);">통합 관리자 대시보드</h1>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #2f6fed, #1cc6d3);">
+                📋
+              </div>
+              <div class="stat-content">
+                <h3 id="stats-listings-count">0</h3>
+                <p>등록된 매물</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                💬
+              </div>
+              <div class="stat-content">
+                <h3 id="stats-consultations-count">0</h3>
+                <p>상담 문의</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                ⏰
+              </div>
+              <div class="stat-content">
+                <h3 id="stats-pending-count">0</h3>
+                <p>대기 중인 문의</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                ✅
+              </div>
+              <div class="stat-content">
+                <h3 id="stats-completed-count">0</h3>
+                <p>완료된 문의</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="dashboard-tabs">
+          <button class="tab-button active" data-tab="consultations">상담 문의 관리</button>
+          <button class="tab-button" data-tab="listings">매물 관리</button>
+        </div>
+
+        <!-- Consultations Tab -->
+        <div id="consultations-tab" class="tab-content active">
+          <div class="admin-card">
+            <h2>상담 문의 목록</h2>
+            <p class="admin-subtitle">
+              고객의 상담 문의를 확인하고 상태를 관리하세요.
+            </p>
+
+            <div class="consultation-filters" style="margin: 1.5rem 0;">
+              <button class="btn btn-primary btn-sm" data-status-filter="all">전체</button>
+              <button class="btn btn-outline btn-sm" data-status-filter="pending">대기</button>
+              <button class="btn btn-outline btn-sm" data-status-filter="contacted">연락완료</button>
+              <button class="btn btn-outline btn-sm" data-status-filter="completed">완료</button>
+              <button class="btn btn-outline btn-sm" data-status-filter="cancelled">취소</button>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th scope="col">이름</th>
+                    <th scope="col">연락처</th>
+                    <th scope="col">신청일</th>
+                    <th scope="col">상태</th>
+                    <th scope="col">관리</th>
+                  </tr>
+                </thead>
+                <tbody id="consultations-table-body"></tbody>
+              </table>
+            </div>
+            <p id="consultations-empty" class="form-feedback" hidden>등록된 상담 문의가 없습니다.</p>
+          </div>
+        </div>
+
+        <!-- Listings Tab -->
+        <div id="listings-tab" class="tab-content">
+          <div class="admin-grid">
+            <div class="admin-card">
+              <h2>매물 등록 · 수정</h2>
+              <p class="admin-subtitle">
+                신규 매물을 추가하거나 기존 매물 정보를 업데이트하세요.
+              </p>
+              <form id="listing-form" class="admin-form" autocomplete="off">
+                <input type="hidden" id="listing-id" name="id" />
+                <div class="form-row">
+                  <div>
+                    <label for="listing-title">매물 제목</label>
+                    <input type="text" id="listing-title" name="title" required />
+                  </div>
+                  <div>
+                    <label for="listing-location">지역</label>
+                    <input type="text" id="listing-location" name="location" required />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div>
+                    <label for="listing-category">카테고리</label>
+                    <select id="listing-category" name="category" required>
+                      <option value="">선택하세요</option>
+                      <option value="general">종합병원</option>
+                      <option value="dental">치과</option>
+                      <option value="rehab">재활/요양</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="listing-price">가격 정보</label>
+                    <input type="text" id="listing-price" name="price" required />
+                  </div>
+                </div>
+                <label for="listing-description">핵심 소개</label>
+                <textarea
+                  id="listing-description"
+                  name="description"
+                  rows="4"
+                  required
+                  placeholder="매물의 주요 특징과 강점을 입력하세요."
+                ></textarea>
+                <div class="form-row">
+                  <div>
+                    <label for="listing-highlight-1">하이라이트 1</label>
+                    <input type="text" id="listing-highlight-1" name="highlight1" />
+                  </div>
+                  <div>
+                    <label for="listing-highlight-2">하이라이트 2</label>
+                    <input type="text" id="listing-highlight-2" name="highlight2" />
+                  </div>
+                  <div>
+                    <label for="listing-highlight-3">하이라이트 3</label>
+                    <input type="text" id="listing-highlight-3" name="highlight3" />
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary" id="listing-submit">저장하기</button>
+                  <button type="button" class="btn btn-outline" id="listing-reset" hidden>작성 취소</button>
+                </div>
+                <p id="listing-feedback" class="form-feedback" role="status" hidden></p>
+              </form>
+            </div>
+
+            <div class="admin-card">
+              <h2>등록된 매물</h2>
+              <p class="admin-subtitle">
+                제목을 클릭하면 해당 매물을 편집할 수 있습니다.
+              </p>
+              <div class="table-wrapper">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">제목</th>
+                      <th scope="col">지역</th>
+                      <th scope="col">카테고리</th>
+                      <th scope="col">가격</th>
+                      <th scope="col">관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="listings-table-body"></tbody>
+                </table>
+              </div>
+              <p id="listings-empty" class="form-feedback" hidden>등록된 매물이 없습니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Consultation Detail Modal -->
+    <div id="consultation-modal" class="modal" hidden>
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <button class="modal-close" aria-label="닫기">&times;</button>
+        <div class="modal-body">
+          <div class="modal-header">
+            <h2 class="modal-title" id="modal-consultation-name"></h2>
+          </div>
+          <div class="consultation-details">
+            <div class="detail-row">
+              <strong>이메일:</strong>
+              <span id="modal-consultation-email"></span>
+            </div>
+            <div class="detail-row">
+              <strong>연락처:</strong>
+              <span id="modal-consultation-phone"></span>
+            </div>
+            <div class="detail-row">
+              <strong>신청일:</strong>
+              <span id="modal-consultation-date"></span>
+            </div>
+            <div class="detail-section">
+              <strong>상담 내용:</strong>
+              <p id="modal-consultation-message"></p>
+            </div>
+            <div class="detail-section">
+              <label for="modal-consultation-status"><strong>상태:</strong></label>
+              <select id="modal-consultation-status" class="status-select">
+                <option value="pending">대기</option>
+                <option value="contacted">연락완료</option>
+                <option value="completed">완료</option>
+                <option value="cancelled">취소</option>
+              </select>
+            </div>
+            <div class="detail-section">
+              <label for="modal-consultation-notes"><strong>관리자 메모:</strong></label>
+              <textarea id="modal-consultation-notes" rows="4" placeholder="메모를 입력하세요..."></textarea>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-primary" id="save-consultation-btn">저장</button>
+            <button type="button" class="btn btn-danger" id="delete-consultation-btn">삭제</button>
+            <button type="button" class="btn btn-outline" id="close-modal-btn">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="assets/js/dashboard.js"></script>
+  </body>
+</html>

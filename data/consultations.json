@@ -1,0 +1,13 @@
+[
+  {
+    "id": "mh0hip4a",
+    "name": "홍길동",
+    "email": "hong@example.com",
+    "message": "병원 매수에 관심이 있습니다.",
+    "phone": "010-1234-5678",
+    "status": "contacted",
+    "createdAt": "2025-10-21T11:32:15.658Z",
+    "updatedAt": "2025-10-21T11:32:34.398Z",
+    "notes": "전화 연락 완료"
+  }
+]

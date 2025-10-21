@@ -58,5 +58,20 @@
     ],
     "createdAt": "2024-04-05T06:45:00.000Z",
     "updatedAt": "2024-04-05T06:45:00.000Z"
+  },
+  {
+    "id": "mh0hjapd",
+    "title": "서울 강남 치과",
+    "location": "서울 강남",
+    "category": "dental",
+    "price": "15억 원",
+    "description": "최신 장비를 갖춘 현대적인 치과입니다.",
+    "highlights": [
+      "역세권 위치",
+      "최신 장비",
+      "안정적 매출"
+    ],
+    "createdAt": "2025-10-21T11:32:43.633Z",
+    "updatedAt": "2025-10-21T11:32:43.633Z"
   }
 ]
