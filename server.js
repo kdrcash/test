@@ -5,6 +5,7 @@ const fs = require('fs/promises');
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'changeme';
 const DATA_FILE = path.join(__dirname, 'data', 'listings.json');
+const CONSULTATIONS_FILE = path.join(__dirname, 'data', 'consultations.json');
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -24,6 +25,13 @@ async function ensureDataFile() {
   } catch (error) {
     await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
     await fs.writeFile(DATA_FILE, '[]', 'utf-8');
+  }
+
+  try {
+    await fs.access(CONSULTATIONS_FILE);
+  } catch (error) {
+    await fs.mkdir(path.dirname(CONSULTATIONS_FILE), { recursive: true });
+    await fs.writeFile(CONSULTATIONS_FILE, '[]', 'utf-8');
   }
 }
 
@@ -47,6 +55,28 @@ async function readListings() {
 
 async function writeListings(listings) {
   await fs.writeFile(DATA_FILE, JSON.stringify(listings, null, 2), 'utf-8');
+}
+
+async function readConsultations() {
+  const raw = await fs.readFile(CONSULTATIONS_FILE, 'utf-8');
+  if (!raw.trim()) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed;
+    }
+    return [];
+  } catch (error) {
+    console.error('Failed to parse consultations file:', error);
+    return [];
+  }
+}
+
+async function writeConsultations(consultations) {
+  await fs.writeFile(CONSULTATIONS_FILE, JSON.stringify(consultations, null, 2), 'utf-8');
 }
 
 function buildHeaders(additional = {}) {
@@ -108,6 +138,41 @@ function validateListing(payload) {
     : [];
 
   sanitized.highlights = highlights;
+
+  return { valid: errors.length === 0, errors, sanitized };
+}
+
+function validateConsultation(payload) {
+  const errors = [];
+  const requiredFields = ['name', 'email', 'message'];
+
+  if (!payload || typeof payload !== 'object') {
+    return { valid: false, errors: ['body'] };
+  }
+
+  const sanitized = {};
+
+  requiredFields.forEach((field) => {
+    const value = payload[field];
+    if (typeof value !== 'string' || !value.trim()) {
+      errors.push(field);
+    } else {
+      sanitized[field] = value.trim();
+    }
+  });
+
+  // Optional fields
+  if (payload.phone && typeof payload.phone === 'string') {
+    sanitized.phone = payload.phone.trim();
+  }
+
+  if (payload.status && typeof payload.status === 'string') {
+    sanitized.status = payload.status.trim();
+  }
+
+  if (payload.notes && typeof payload.notes === 'string') {
+    sanitized.notes = payload.notes.trim();
+  }
 
   return { valid: errors.length === 0, errors, sanitized };
 }
@@ -241,6 +306,96 @@ async function handleDeleteListing(req, res, id) {
   sendJson(res, 200, removed);
 }
 
+async function handleGetConsultations(req, res) {
+  if (!isAdminAuthorized(req)) {
+    sendJson(res, 401, { error: 'Administrator authentication required' });
+    return;
+  }
+
+  const consultations = await readConsultations();
+  sendJson(res, 200, consultations);
+}
+
+async function handleCreateConsultation(req, res) {
+  let payload;
+  try {
+    payload = await parseBody(req);
+  } catch (error) {
+    sendJson(res, 400, { error: error.message });
+    return;
+  }
+
+  const { valid, errors, sanitized } = validateConsultation(payload);
+  if (!valid) {
+    sendJson(res, 400, { error: 'Missing or invalid fields', fields: errors });
+    return;
+  }
+
+  const consultations = await readConsultations();
+  const newConsultation = {
+    id: Date.now().toString(36),
+    ...sanitized,
+    status: sanitized.status || 'pending',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  consultations.push(newConsultation);
+  await writeConsultations(consultations);
+  sendJson(res, 201, newConsultation);
+}
+
+async function handleUpdateConsultation(req, res, id) {
+  if (!isAdminAuthorized(req)) {
+    sendJson(res, 401, { error: 'Administrator authentication required' });
+    return;
+  }
+
+  let payload;
+  try {
+    payload = await parseBody(req);
+  } catch (error) {
+    sendJson(res, 400, { error: error.message });
+    return;
+  }
+
+  const consultations = await readConsultations();
+  const index = consultations.findIndex((item) => item.id === id);
+
+  if (index === -1) {
+    sendJson(res, 404, { error: 'Consultation not found' });
+    return;
+  }
+
+  const updatedConsultation = {
+    ...consultations[index],
+    ...payload,
+    updatedAt: new Date().toISOString()
+  };
+
+  consultations[index] = updatedConsultation;
+  await writeConsultations(consultations);
+  sendJson(res, 200, updatedConsultation);
+}
+
+async function handleDeleteConsultation(req, res, id) {
+  if (!isAdminAuthorized(req)) {
+    sendJson(res, 401, { error: 'Administrator authentication required' });
+    return;
+  }
+
+  const consultations = await readConsultations();
+  const index = consultations.findIndex((item) => item.id === id);
+  if (index === -1) {
+    sendJson(res, 404, { error: 'Consultation not found' });
+    return;
+  }
+
+  const [removed] = consultations.splice(index, 1);
+  await writeConsultations(consultations);
+  sendJson(res, 200, removed);
+}
+
 async function handleApiRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const { pathname } = url;
@@ -280,6 +435,34 @@ async function handleApiRequest(req, res) {
     }
   }
 
+  if (pathname === '/api/consultations' && req.method === 'GET') {
+    await handleGetConsultations(req, res);
+    return true;
+  }
+
+  if (pathname === '/api/consultations' && req.method === 'POST') {
+    await handleCreateConsultation(req, res);
+    return true;
+  }
+
+  if (pathname.startsWith('/api/consultations/')) {
+    const id = pathname.split('/')[3];
+    if (!id) {
+      sendJson(res, 400, { error: 'Consultation identifier missing' });
+      return true;
+    }
+
+    if (req.method === 'PUT') {
+      await handleUpdateConsultation(req, res, id);
+      return true;
+    }
+
+    if (req.method === 'DELETE') {
+      await handleDeleteConsultation(req, res, id);
+      return true;
+    }
+  }
+
   return false;
 }
 
@@ -295,7 +478,11 @@ async function serveStaticFile(req, res) {
     pathname = '/admin.html';
   }
 
-  const allowedRoots = ['/index.html', '/admin.html'];
+  if (pathname === '/dashboard') {
+    pathname = '/dashboard.html';
+  }
+
+  const allowedRoots = ['/index.html', '/admin.html', '/dashboard.html'];
   const isAsset = pathname.startsWith('/assets/');
 
   if (!isAsset && !allowedRoots.includes(pathname)) {
