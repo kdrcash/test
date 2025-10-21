@@ -63,6 +63,7 @@ export function createListingCard(listing) {
   const article = document.createElement('article');
   article.classList.add('listing-card');
   article.dataset.category = listing.category || 'unknown';
+  article.style.cursor = 'pointer';
 
   const location = document.createElement('span');
   location.classList.add('tag');
@@ -95,11 +96,128 @@ export function createListingCard(listing) {
 
   const cta = document.createElement('a');
   cta.classList.add('btn', 'btn-outline');
-  cta.href = '#contact';
-  cta.textContent = '매물 상세 문의';
+  cta.href = '#';
+  cta.textContent = '상세 정보 보기';
   article.appendChild(cta);
 
+  // Add click event to show modal
+  article.addEventListener('click', (e) => {
+    e.preventDefault();
+    showListingModal(listing);
+  });
+
   return article;
+}
+
+export function showListingModal(listing) {
+  const modal = document.getElementById('listing-modal');
+  const modalBody = document.getElementById('modal-body');
+
+  if (!modal || !modalBody) {
+    return;
+  }
+
+  // Format dates
+  const createdDate = listing.createdAt
+    ? new Date(listing.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+    : '';
+  const updatedDate = listing.updatedAt
+    ? new Date(listing.updatedAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+    : '';
+
+  // Get category name
+  const categoryNames = {
+    general: '종합병원',
+    dental: '치과',
+    rehab: '재활/요양'
+  };
+  const categoryName = categoryNames[listing.category] || listing.category || '기타';
+
+  // Build modal content
+  modalBody.innerHTML = `
+    <div class="modal-header">
+      <span class="tag modal-location">${listing.location || ''}</span>
+      <h2 class="modal-title">${listing.title || ''}</h2>
+      <p class="modal-price">${listing.price || ''}</p>
+    </div>
+
+    <div class="modal-section">
+      <h3 class="modal-section-title">매물 설명</h3>
+      <p class="modal-description">${listing.description || ''}</p>
+    </div>
+
+    ${Array.isArray(listing.highlights) && listing.highlights.length > 0 ? `
+      <div class="modal-section">
+        <h3 class="modal-section-title">핵심 포인트</h3>
+        <div class="modal-highlights">
+          ${listing.highlights.map(highlight => `
+            <div class="modal-highlight-item">${highlight}</div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="modal-section">
+      <h3 class="modal-section-title">기본 정보</h3>
+      <div class="modal-meta">
+        <div class="modal-meta-item">
+          <span class="modal-meta-label">카테고리</span>
+          <span class="modal-meta-value">${categoryName}</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label">지역</span>
+          <span class="modal-meta-value">${listing.location || '-'}</span>
+        </div>
+        ${createdDate ? `
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">등록일</span>
+            <span class="modal-meta-value">${createdDate}</span>
+          </div>
+        ` : ''}
+        ${updatedDate ? `
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">최종 수정일</span>
+            <span class="modal-meta-value">${updatedDate}</span>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <a href="#contact" class="btn btn-primary">상담 신청하기</a>
+      <button class="btn btn-outline modal-close-btn">닫기</button>
+    </div>
+  `;
+
+  // Show modal
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+
+  // Setup close handlers
+  const closeModal = () => {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+  };
+
+  const closeButton = modal.querySelector('.modal-close');
+  const closeBtn = modalBody.querySelector('.modal-close-btn');
+  const overlay = modal.querySelector('.modal-overlay');
+
+  closeButton.onclick = closeModal;
+  closeBtn.onclick = closeModal;
+  overlay.onclick = closeModal;
+
+  // Close on Escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
+  document.addEventListener('keydown', handleEscape);
+
+  // Focus close button for accessibility
+  closeButton.focus();
 }
 
 export function renderListingCards(listings, container) {
